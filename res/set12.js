@@ -1,0 +1,1 @@
+const game_constants_path = 'res/set12/game.json';
