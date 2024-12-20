@@ -40,17 +40,26 @@
         .button {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
+            padding: 5px 10px;
             border: none;
             cursor: pointer;
         }
         .button:hover {
             background-color: #45a049;
         }
-		.checkbox-group {
-			display: flex;
-			flex-direction: column; 
-			gap: 5px; // Space between cost groups
+        .checkbox-group label {
+            margin: 2px;
+        }
+		.traits-group {
+			margin: 4px;
+			grid-gap: 12px;
+			font-size: 14px;
+			flex-wrap: wrap;
+			flex-direction: row;
+			display: grid;
+			width: 540px;
+			grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px;
+			align-items: center;
 		}
         .composition-list {
             margin-top: 20px;
@@ -82,7 +91,7 @@
 	<!-- Traits Filter -->
 	<div class="section">
 		<h2>Traits Filter</h2>
-		<div id="traitFilter" class="checkbox-group">
+		<div id="traitFilter" class="traits-group">
 			<!-- Dynamically populated trait filters will go here -->
 		</div>
 	</div>
@@ -226,26 +235,22 @@
         }
 		function populateTraitFilters() {
 			const traitFilterDiv = document.getElementById('traitFilter');
-			// Get all traits from the units
-			const allTraits = new Set();
+			const allTraits = {}; // Object to store traits and their counts
+
+			// Count the occurrences of each trait
 			Object.keys(units).forEach(unit => {
 				units[unit].traits.forEach(trait => {
-					allTraits.add(trait);
+					allTraits[trait] = (allTraits[trait] || 0) + 1; // Increment trait count
 				});
 			});
 
-			// Populate the trait filter options
-			allTraits.forEach(trait => {
-				const filterLabel = document.createElement('label');
-				filterLabel.innerHTML = `${trait}: `;
-				const inputField = document.createElement('input');
-				inputField.type = 'number';
-				inputField.min = 0;
-				inputField.max = 99;
-				inputField.value = 0;
-				inputField.dataset.trait = trait; // Attach trait name to the input
-				filterLabel.appendChild(inputField);
-				traitFilterDiv.appendChild(filterLabel);
+			// Filter traits that appear more than once and populate the trait filter options
+			Object.entries(allTraits).forEach(([trait, count]) => {
+				if (count > 1) { // Only include traits with more than one unit
+					const filterLabel = document.createElement('label');
+					filterLabel.innerHTML = `${trait}: <input type="number" min="0" max="99" value="0" data-trait="${trait}">`;
+					traitFilterDiv.appendChild(filterLabel);
+				}
 			});
 		}
 		function populateUnitOptions() {
