@@ -1,0 +1,84 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 20px;
+	line-height: 1.6;
+	background-color: #141418; /* Dark gray background */
+	color: #ffffff; /* White text */
+}
+.checkbox-group {
+	display: flex;
+	flex-direction: column; /* Stack the cost groups vertically */
+	gap: 5px; /* Space between cost groups */
+}
+.cost-group {
+	margin-bottom: 5px; /* Add space between cost groups */
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap; /* Ensure items within the group wrap onto the next line */
+	align-items: center;
+}
+.cost-group > label {
+	justify-content: center;
+	margin-right: 5px; // Space between items in the group */
+	align-items: center;
+}
+.section {
+	margin-bottom: 20px;
+}
+.portrait {
+	position: relative;
+	width: 48px;
+	height: 48px;
+	overflow: hidden;
+	margin-bottom: 1px;
+}
+.button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	cursor: pointer;
+}
+.button-ban {
+    background-color: #820000;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+.button-unban {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+.button-ban:hover {
+	background-color: #ed3939;
+}
+.button-unban:hover {
+	background-color: #39ed3f;
+}
+.checkbox-group label {
+	margin: 2px;
+}
+.traits-group {
+	margin: 4px;
+	grid-gap: 12px;
+	font-size: 14px;
+	flex-wrap: wrap;
+	flex-direction: row;
+	display: grid;
+	width: 540px;
+	grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px;
+	align-items: center;
+}
+.composition-list {
+	margin-top: 20px;
+}
+.composition-item {
+	background: #f9f9f9;
+	padding: 10px;
+	border: 1px solid #ddd;
+	margin-bottom: 10px;
+}

@@ -4,73 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TFT Composition Builder</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-			line-height: 1.6;
-        }
-		.checkbox-group {
-			display: flex;
-			flex-direction: column; /* Stack the cost groups vertically */
-			gap: 5px; /* Space between cost groups */
-		}
-		.cost-group {
-			margin-bottom: 5px; /* Add space between cost groups */
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap; /* Ensure items within the group wrap onto the next line */
-			align-items: center;
-		}
-		.cost-group > label {
-			justify-content: center;
-			margin-right: 5px; // Space between items in the group */
-			align-items: center;
-		}
-        .section {
-            margin-bottom: 20px;
-        }
-		.portrait {
-            position: relative;
-            width: 48px;
-            height: 48px;
-            overflow: hidden;
-            margin-bottom: 1px;
-        }
-        .button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            cursor: pointer;
-        }
-        .button:hover {
-            background-color: #45a049;
-        }
-        .checkbox-group label {
-            margin: 2px;
-        }
-		.traits-group {
-			margin: 4px;
-			grid-gap: 12px;
-			font-size: 14px;
-			flex-wrap: wrap;
-			flex-direction: row;
-			display: grid;
-			width: 540px;
-			grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px;
-			align-items: center;
-		}
-        .composition-list {
-            margin-top: 20px;
-        }
-        .composition-item {
-            background: #f9f9f9;
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-        }
-    </style>
+    <link href="style.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
     <h1>Akeno TFT Composition Builder</h1>
@@ -297,7 +231,7 @@
 
 				// Add a button to toggle ban all units of this cost
 				const banToggleButton = document.createElement('button');
-				banToggleButton.classList.add('button');
+				banToggleButton.classList.add('button', 'button-ban'); // Default state is "Ban All"
 				banToggleButton.innerText = `Ban All ${cost} Costs`;
 				banToggleButton.onclick = () => toggleBanAllUnitsOfCost(cost, banToggleButton);
 				costGroupDiv.appendChild(banToggleButton);
@@ -331,8 +265,12 @@
 			// Change the button label based on the new state
 			if (areAllBanned) {
 				button.innerText = `Ban All ${cost} Costs`;
+				button.classList.remove('button-unban');
+				button.classList.add('button-ban');
 			} else {
 				button.innerText = `Unban All ${cost} Costs`;
+				button.classList.remove('button-ban');
+				button.classList.add('button-unban');
 			}
 		}
 		// Function to generate unit image
