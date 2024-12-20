@@ -5,50 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TFT Composition Builder</title>
     <link href="style.css" type="text/css" rel="stylesheet"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 </head>
 <body>
-    <h1>Akeno TFT Composition Builder</h1>
-    <!-- Select Units -->
-    <div class="section">
-        <h2>Select Units</h2>
-        <div id="unitSelection" class="checkbox-group">
-            <!-- Dynamically populated units will go here -->
-        </div>
-    </div>
-    <!-- Ban Units -->
-    <div class="section">
-        <h2>Ban Units</h2>
-        <div id="unitBan" class="checkbox-group">
-            <!-- Dynamically populated ban options will go here -->
-        </div>
-    </div>
-	<!-- Traits Filter -->
-	<div class="section">
-		<h2>Traits Filter</h2>
-		<div id="traitFilter" class="traits-group">
-			<!-- Dynamically populated trait filters will go here -->
+	<div class="maindiv">
+	<h1>Akeno TFT Composition Builder</h1>
+		<!-- Select Units -->
+		<div class="section">
+			<h2>Select Units</h2>
+			<div id="unitSelection" class="checkbox-group">
+				<!-- Dynamically populated units will go here -->
+			</div>
+		</div>
+		<!-- Ban Units -->
+		<div class="section">
+			<h2>Ban Units</h2>
+			<div id="unitBan" class="checkbox-group">
+				<!-- Dynamically populated ban options will go here -->
+			</div>
+		</div>
+		<!-- Traits Filter -->
+		<div class="section">
+			<h2>Traits Filter</h2>
+			<div id="traitFilter" class="traits-group">
+				<!-- Dynamically populated trait filters will go here -->
+			</div>
+		</div>
+		<!-- Composition Size -->
+		<div class="section">
+			<h2>Composition Size</h2>
+			<input type="number" id="compositionSize" min="3" max="11" value="5">
+		</div>
+		<!-- Unactive Traits -->
+		<div class="section">
+			<h2>Max Unactive Traits</h2>
+			<label><input type="radio" name="unactiveTraits" value="0"> 0 or fewer</label>
+			<label><input type="radio" name="unactiveTraits" value="1" checked> 1 or fewer</label>
+			<label><input type="radio" name="unactiveTraits" value="2"> 2 or fewer</label>
+		</div>
+		<!-- Search Button -->
+		<div class="section">
+			<button class="button" id="searchButton">Search</button>
 		</div>
 	</div>
-    <!-- Composition Size -->
-    <div class="section">
-        <h2>Composition Size</h2>
-        <input type="number" id="compositionSize" min="3" max="11" value="5">
-    </div>
-    <!-- Unactive Traits -->
-    <div class="section">
-        <h2>Max Unactive Traits</h2>
-        <label><input type="radio" name="unactiveTraits" value="0"> 0 or fewer</label>
-        <label><input type="radio" name="unactiveTraits" value="1" checked> 1 or fewer</label>
-        <label><input type="radio" name="unactiveTraits" value="2"> 2 or fewer</label>
-    </div>
-    <!-- Search Button -->
-    <div class="section">
-        <button class="button" id="searchButton">Search</button>
-    </div>
-    <!-- Results -->
-    <div class="composition-list" id="compositionResults">
-        <!-- Results will be displayed here -->
-    </div>
+	<!-- Results -->
+	<div class="composition-list" id="compositionResults">
+		<h2> - Results will be displayed here - </h2>
+	</div>
     <script>
 		const units = {
 			"Akali": {"cost": 2, "traits": ["Rebel", "Quickstriker"]},
@@ -454,6 +457,10 @@
         document.getElementById('searchButton').addEventListener('click', () => {
             handleSelection();
 			handleTraitFilterSelection();
+			window.scrollTo({
+				top: 100,
+				behavior: 'smooth' // Adds smooth scrolling effect
+			});
             displayCompositions();
         });
         // Populate initial selections

@@ -1,9 +1,11 @@
 body {
-	font-family: Arial, sans-serif;
-	margin: 20px;
+	font-family: "Montserrat", sans-serif;
+	margin-left: 30px;
 	line-height: 1.2;
 	background-color: #141418; /* Dark gray background */
 	color: #ffffff; /* White text */
+	display:flex;
+	flex-direction: row;
 }
 .checkbox-group {
 	display: flex;
@@ -16,10 +18,13 @@ body {
 	flex-direction: row;
 	flex-wrap: wrap; /* Ensure items within the group wrap onto the next line */
 	align-items: center;
-	gap: 12px;
+	gap: 4px;
 }
 .section {
 	margin-bottom: 10px;
+}
+.maindiv {
+	width:60%;
 }
 .portrait {
 	box-sizing : border-box;
@@ -78,7 +83,7 @@ body {
 	font-size: 14px;
 	display: grid;
 	width: 540px;
-	grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px;
+	grid-template-columns: 120px 120px 120px 120px 120px 120px 120px 120px;
 	align-items: center;
 }
 .traits-label {
@@ -86,7 +91,8 @@ body {
 	flex-direction: column;
 }
 .composition-list {
-	margin-top: 20px;
+	margin-top: 100px;
+	width:40%;
 }
 .composition-item {
 	background-color: #171814; /* Dark gray background */
