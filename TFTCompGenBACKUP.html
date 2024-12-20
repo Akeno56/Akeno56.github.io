@@ -10,22 +10,14 @@
             margin: 20px;
 			line-height: 1.6;
         }
-		.checkbox-group {
-			display: flex;
-			flex-direction: column; /* Stack the cost groups vertically */
-			gap: 5px; /* Space between cost groups */
-		}
 		.cost-group {
-			margin-bottom: 5px; /* Add space between cost groups */
+			margin-bottom: 20px; /* Add space between cost groups */
 			display: flex;
-			flex-direction: row;
 			flex-wrap: wrap; /* Ensure items within the group wrap onto the next line */
 			align-items: center;
 		}
 		.cost-group > label {
-			justify-content: center;
-			margin-right: 5px; // Space between items in the group */
-			align-items: center;
+			margin-right: 10px; /* Space between items in the group */
 		}
         .section {
             margin-bottom: 20px;
@@ -47,11 +39,13 @@
         .button:hover {
             background-color: #45a049;
         }
-		.checkbox-group {
-			display: flex;
-			flex-direction: column; 
-			gap: 5px; // Space between cost groups
-		}
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .checkbox-group label {
+            margin: 5px 20px;
+        }
         .composition-list {
             margin-top: 20px;
         }
@@ -273,7 +267,7 @@
 				unitSelectionDiv.appendChild(costGroupDiv);
 			});
 
-			// Populate the Ban Units section
+			// Populate the Ban Units section with images
 			Object.keys(groupedUnits).forEach(cost => {
 				const costGroupDiv = document.createElement('div');
 				costGroupDiv.classList.add('cost-group');
