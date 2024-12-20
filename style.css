@@ -1,7 +1,7 @@
 body {
 	font-family: Arial, sans-serif;
 	margin: 20px;
-	line-height: 1.6;
+	line-height: 1.2;
 	background-color: #141418; /* Dark gray background */
 	color: #ffffff; /* White text */
 }
@@ -11,7 +11,7 @@ body {
 	gap: 8px; /* Space between cost groups */
 }
 .cost-group {
-	margin-bottom: 13px; /* Add space between cost groups */
+	margin-bottom: 2px; /* Add space between cost groups */
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap; /* Ensure items within the group wrap onto the next line */
@@ -19,9 +19,10 @@ body {
 	gap: 12px;
 }
 .section {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 .portrait {
+	box-sizing : border-box;
 	position: relative;
 	width: 48px;
 	height: 48px;
@@ -60,7 +61,7 @@ body {
     border: 3px;
 	border-style: solid;
 	border-color: #39ed3f; /* Highlight selected units */
-    border-radius: 5px;
+	border-radius: 5px;
 }
 .banned {
     border: 3px;

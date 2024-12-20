@@ -218,7 +218,6 @@
 					const unitImage = generateUnitImage(unit);
 					unitImage.dataset.unit = unit;
 					unitImage.classList.add('unit-ban');
-					// Add click event to toggle ban state
 					unitImage.addEventListener('click', () => {
 						unitImage.classList.toggle('banned');
 					});
