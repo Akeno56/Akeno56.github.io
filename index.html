@@ -179,6 +179,7 @@
 			Object.entries(allTraits).forEach(([trait, count]) => {
 				if (count > 1) { // Only include traits with more than one unit
 					const filterLabel = document.createElement('label');
+					filterLabel.classList.add('traits-label');
 					filterLabel.innerHTML = `${trait}: <input type="number" min="0" max="99" value="0" data-trait="${trait}">`;
 					traitFilterDiv.appendChild(filterLabel);
 				}

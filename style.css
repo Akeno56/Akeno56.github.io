@@ -75,12 +75,14 @@ body {
 	margin: 4px;
 	grid-gap: 12px;
 	font-size: 14px;
-	flex-wrap: wrap;
-	flex-direction: row;
 	display: grid;
 	width: 540px;
 	grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px;
 	align-items: center;
+}
+.traits-label {
+	display : flex;
+	flex-direction: column;
 }
 .composition-list {
 	margin-top: 20px;
