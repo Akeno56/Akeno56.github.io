@@ -114,7 +114,6 @@
 			"Zoe": {"cost": 4, "traits": ["Rebel", "Sorcerer"]},
 			"Zyra": {"cost": 1, "traits": ["Experiment", "Sorcerer"]}
         };
-
         const traitThresholds = {
 			"Academy": {"Thresholds": [3, 4, 5, 6], "Scores": [3, 6, 8, 14]},
 			"Ambusher": {"Thresholds": [2, 3, 4, 5], "Scores": [3, 6, 8, 14]},
@@ -170,14 +169,12 @@
 		function populateTraitFilters() {
 			const traitFilterDiv = document.getElementById('traitFilter');
 			const allTraits = {}; // Object to store traits and their counts
-
 			// Count the occurrences of each trait
 			Object.keys(units).forEach(unit => {
 				units[unit].traits.forEach(trait => {
 					allTraits[trait] = (allTraits[trait] || 0) + 1; // Increment trait count
 				});
 			});
-
 			// Filter traits that appear more than once and populate the trait filter options
 			Object.entries(allTraits).forEach(([trait, count]) => {
 				if (count > 1) { // Only include traits with more than one unit
@@ -190,79 +187,70 @@
 		function populateUnitOptions() {
 			const unitSelectionDiv = document.getElementById('unitSelection');
 			const unitBanDiv = document.getElementById('unitBan');
-			const groupedUnits = groupUnitsByCost();
-			
+			const groupedUnits = groupUnitsByCost();			
 			// Populate the Select Units section
 			Object.keys(groupedUnits).forEach(cost => {
 				const costGroupDiv = document.createElement('div');
-				costGroupDiv.classList.add('cost-group');
-				
+				costGroupDiv.classList.add('cost-group');				
 				const costLabel = document.createElement('label');
 				costLabel.innerHTML = `<strong>${cost} Costs</strong>`;
 				costGroupDiv.appendChild(costLabel);
-
 				groupedUnits[cost].forEach(unit => {
 					const unitImage = generateUnitImage(unit);
-					const selectionLabel = document.createElement('label');
-					selectionLabel.innerHTML = `<input type="checkbox" value="${unit}" class="unit-selection">${unit}`;
-					selectionLabel.appendChild(unitImage);
-					costGroupDiv.appendChild(selectionLabel);
+					unitImage.dataset.unit = unit;
+					unitImage.classList.add('unit-selection');
+					unitImage.addEventListener('click', () => {
+						unitImage.classList.toggle('selected');
+					});
+					costGroupDiv.appendChild(unitImage);
 				});
-
 				unitSelectionDiv.appendChild(costGroupDiv);
 			});
-
 			// Populate the Ban Units section
 			Object.keys(groupedUnits).forEach(cost => {
 				const costGroupDiv = document.createElement('div');
 				costGroupDiv.classList.add('cost-group');
-
 				const costLabel = document.createElement('label');
 				costLabel.innerHTML = `<strong>${cost} Costs</strong>`;
 				costGroupDiv.appendChild(costLabel);
-
 				groupedUnits[cost].forEach(unit => {
 					const unitImage = generateUnitImage(unit);
-					const banLabel = document.createElement('label');
-					banLabel.innerHTML = `<input type="checkbox" value="${unit}" class="unit-ban">${unit}`;
-					banLabel.appendChild(unitImage);
-					costGroupDiv.appendChild(banLabel);
+					unitImage.dataset.unit = unit;
+					unitImage.classList.add('unit-ban');
+					// Add click event to toggle ban state
+					unitImage.addEventListener('click', () => {
+						unitImage.classList.toggle('banned');
+					});
+					costGroupDiv.appendChild(unitImage);
 				});
-
 				// Add a button to toggle ban all units of this cost
 				const banToggleButton = document.createElement('button');
 				banToggleButton.classList.add('button', 'button-ban'); // Default state is "Ban All"
 				banToggleButton.innerText = `Ban All ${cost} Costs`;
 				banToggleButton.onclick = () => toggleBanAllUnitsOfCost(cost, banToggleButton);
 				costGroupDiv.appendChild(banToggleButton);
-
 				unitBanDiv.appendChild(costGroupDiv);
 			});
 		}
-        // Toggle the banning of all units of a specific cost
 		function toggleBanAllUnitsOfCost(cost, button) {
-			const unitsToToggle = document.querySelectorAll(`#unitBan input[type="checkbox"]`);
-			let areAllBanned = true;
-			// Check if all units of the specified cost are currently banned
-			unitsToToggle.forEach(unit => {
-				if (units[unit.value] && units[unit.value].cost === parseInt(cost)) {
-					if (!unit.checked) {
-						areAllBanned = false; // If any unit is not banned, we are banning all
-					}
+			const costGroupDiv = button.parentElement; // Get the parent cost group div
+			const unitImages = costGroupDiv.querySelectorAll('.unit-ban'); // Select all unit-ban images within this cost group
+
+			// Check if all units in this cost group are currently banned
+			let areAllBanned = Array.from(unitImages).every(unitImage => unitImage.classList.contains('banned'));
+
+			// Toggle the ban state for all units in this cost group
+			unitImages.forEach(unitImage => {
+				if (areAllBanned) {
+					unitImage.classList.remove('banned'); // Unban all
+					bannedUnits.delete(unitImage.dataset.unit);
+				} else {
+					unitImage.classList.add('banned'); // Ban all
+					bannedUnits.add(unitImage.dataset.unit);
 				}
 			});
-			// Toggle the state of all units of this cost
-			unitsToToggle.forEach(unit => {
-				if (units[unit.value] && units[unit.value].cost === parseInt(cost)) {
-					unit.checked = !areAllBanned;
-					if (unit.checked) {
-						bannedUnits.add(unit.value);
-					} else {
-						bannedUnits.delete(unit.value);
-					}
-				}
-			});
-			// Change the button label based on the new state
+
+			// Update the button label and styles based on the new state
 			if (areAllBanned) {
 				button.innerText = `Ban All ${cost} Costs`;
 				button.classList.remove('button-unban');
@@ -294,9 +282,7 @@
 				Steb: "tft13_fish_teamplanner_splash.png",
 				Renata: "tft13_renataglasc_teamplanner_splash.png"
 			};
-
 			let imageUrl;
-
 			// Check if the unit has a special case
 			if (specialCases[unitName]) {
 				imageUrl = `https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/patching/${specialCases[unitName]}`;
@@ -305,33 +291,32 @@
 				const formattedUnitName = unitName.toLowerCase(); // Ensure unit name is lowercase
 				imageUrl = `https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/patching/tft13_${formattedUnitName}_teamplanner_splash.png`;
 			}
-
 			const imageDiv = document.createElement('div');
 			imageDiv.classList.add('portrait');
-
 			const imgElement = document.createElement('img');
 			imgElement.src = imageUrl;
 			imgElement.alt = unitName;
 			imgElement.style.width = '250%';
 			imgElement.style.height = '250%';
 			imgElement.style.transform = 'translate(-46px, -20px)';
-
 			imageDiv.appendChild(imgElement);
 			return imageDiv;
 		}
-        // Handle forced selection of units
-        function handleSelection() {
-            selectedUnits.clear();
-            bannedUnits.clear();
-            const unitChecks = document.querySelectorAll('#unitSelection input[type="checkbox"]:checked');
-            unitChecks.forEach(check => {
-                selectedUnits.add(check.value);
-            });
-            const banChecks = document.querySelectorAll('#unitBan input[type="checkbox"]:checked');
-            banChecks.forEach(check => {
-                bannedUnits.add(check.value);
-            });
-        }
+		function handleSelection() {
+			selectedUnits.clear();
+			bannedUnits.clear();
+			// Collect selected units
+			const selectedImages = document.querySelectorAll('.unit-selection.selected');
+			selectedImages.forEach(image => {
+				selectedUnits.add(image.dataset.unit);
+			});
+
+			// Collect banned units
+			const bannedImages = document.querySelectorAll('.unit-ban.banned');
+			bannedImages.forEach(image => {
+				bannedUnits.add(image.dataset.unit);
+			});
+		}
 		// Handle traits filter selection
 		function handleTraitFilterSelection() {
 			selectedTraitFilters = [];
@@ -368,11 +353,9 @@
 				unitCosts.push(units[unit].cost);
 				totalCost += units[unit].cost;
 			});
-
 			const enabledTraits = [];
 			const unactiveTraits = [];
 			let totalScore = 0;
-
 			// Evaluate scores for each trait based on count
 			Object.keys(traitCounts).forEach(trait => {
 				const count = traitCounts[trait];
@@ -402,30 +385,24 @@
 		// Update generateCompositions to handle trait filter
 		function generateCompositions() {
 			const unitList = Object.keys(units);
-			const validCompositions = [];
-			
+			const validCompositions = [];			
 			// Get the list of forced units from selectedUnits
 			const forcedUnits = Array.from(selectedUnits);
 			// Remove forced units from the available unit list to avoid duplicates
-			const availableUnits = unitList.filter(unit => !forcedUnits.includes(unit));
-			
+			const availableUnits = unitList.filter(unit => !forcedUnits.includes(unit));			
 			// Generate all possible combinations based on composition size
-			const combinations = getCombinations(availableUnits, compositionSize - forcedUnits.length);
-			
+			const combinations = getCombinations(availableUnits, compositionSize - forcedUnits.length);			
 			// Now, for each combination, add the forced units into the composition
 			combinations.forEach(combination => {
 				const composition = [...forcedUnits, ...combination];
 				const valid = composition.every(unit => !bannedUnits.has(unit));
 				if (!valid) return;
-
 				const { enabledTraits, totalCost, unactiveTraits, totalScore, traitCounts } = calculateTraitsAndCost(composition);
-
 				// Filter compositions based on the selected traits filter
 				const traitFilterValid = selectedTraitFilters.every(filter => {
 					const traitCount = traitCounts[filter.trait] || 0; // Get the total count of the trait
 					return traitCount >= filter.count; // Ensure that the trait count is at least as specified
 				});
-
 				// Filter compositions based on maxUnactiveTraits
 				if (unactiveTraits.length <= maxUnactiveTraits && enabledTraits.length > 0 && traitFilterValid) {
 					validCompositions.push({
@@ -437,7 +414,6 @@
 					});
 				}
 			});
-
 			// Sort compositions by score (descending)
 			return validCompositions.sort((a, b) => b.score - a.score);
 		}
